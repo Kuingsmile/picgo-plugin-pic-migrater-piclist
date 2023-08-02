@@ -30,12 +30,6 @@
 <img src="http://i.imgur.com/xxxxx.jpg" />
 ```
 
-## 版本要求
-
-`picgo-plugin-pic-migrater <= 1.2.2` 需要 PicGo-GUI 版本 `2.0.2 ~ 2.2.0, PicGo-Cli 版本 1.4.0 ~ 1.5.0-`.
-
-`picgo-plugin-pic-migrater > 1.2.2` 需要 PicGo-GUI 版本 `2.3.0 ~ 目前最新开发版`, PicGo-Cli 版本 `1.5.0-alpha.1 ~ 目前最新alpha版本`.
-
 ## 安装
 
 ### 命令行

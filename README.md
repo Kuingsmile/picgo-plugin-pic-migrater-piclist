@@ -32,12 +32,6 @@ if you choose `imgur` as your migrated picBed, after migrating:
 <img src="http://i.imgur.com/xxxxx.jpg" />
 ```
 
-## Version required
-
-`picgo-plugin-pic-migrater <= 1.2.2` requires PicGo-GUI version `2.0.2 ~ 2.2.0`, PicGo-Cli version `1.4.0 ~ 1.5.0-`.
-
-`picgo-plugin-pic-migrater > 1.2.2` requires PicGo-GUI version `2.3.0 ~ latest beta`, PicGo-Cli version `1.5.0-alpha.1 ~ latest alpha`.
-
 ## Installation
 
 ### CLI
