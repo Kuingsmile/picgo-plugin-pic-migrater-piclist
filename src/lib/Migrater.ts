@@ -26,8 +26,8 @@ class Migrater {
       'picBed.transformer': 'base64'
     })
     this.ctx.output = [] // a bug before picgo v1.2.2
-    const include: string | null = this.ctx.getConfig('picgo-plugin-pic-migrater.include') || null
-    const exclude: string | null = this.ctx.getConfig('picgo-plugin-pic-migrater.exclude') || null
+    const include: string | null = this.ctx.getConfig('picgo-plugin-pic-migrater-piclist.include') || null
+    const exclude: string | null = this.ctx.getConfig('picgo-plugin-pic-migrater-piclist.exclude') || null
     const includesReg = new RegExp(include)
     const excludesReg = new RegExp(exclude)
 

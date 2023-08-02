@@ -4,7 +4,7 @@ const PluginMigrater = require('./dist/index')
 const picgo = new PicGo()
 
 picgo.setConfig({
-  'picgo-plugin-pic-migrater': {
+  'picgo-plugin-pic-migrater-piclist': {
     newFileSuffix: '_new',
     include: '',
     exclude: ''

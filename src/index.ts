@@ -4,7 +4,6 @@ import path from 'path'
 import { IGuiMenuItem, PicGo, IPluginConfig } from 'picgo'
 import FileHandler from './lib/FileHandler'
 import Migrater from './lib/Migrater'
-import { compare } from 'compare-versions'
 import { initI18n, T } from './i18n'
 
 const replaceAll = (content: string, originText: string, replaceText: string): string => {
@@ -14,36 +13,14 @@ const replaceAll = (content: string, originText: string, replaceText: string): s
   content = content.replace(new RegExp(originText, 'g'), replaceText)
   return content
 }
-const checkVersion = (ctx: PicGo, guiApi: any): void => {
-  if (guiApi) {
-    const picgoVersion = ctx.GUI_VERSION || '1.0.0'
-    if (compare(picgoVersion, '2.3.0', '<')) {
-      ctx.emit('notification', {
-        title: 'PicGo version is lower than 2.3.0',
-        body: 'please upgrade PicGo version'
-      })
-      throw Error('[pic-migrater] picgo version is lower than 2.3.0, some features will not work, please upgrade PicGo version')
-    }
-  } else {
-    const picgoVersion = ctx.VERSION || '1.0.0'
-    if (compare(picgoVersion, '1.5.0-alpha.1', '<')) {
-      ctx.emit('notification', {
-        title: 'PicGo-Core version is lower than 1.5.0-alpha.1',
-        body: 'please upgrade PicGo-Core version or PicGo version'
-      })
-      throw Error('[pic-migrater] picgo-core version is lower than 1.5.0, some features will not work, please upgrade PicGo-Core version')
-    }
-  }
-}
 
 const migrateFiles = async (ctx: PicGo, files: string[], guiApi: any = undefined): Promise<{
   total: number
   success: number
 }> => {
-  checkVersion(ctx, guiApi)
   const $T = T(ctx)
-  const newFileSuffix = ctx.getConfig<string>('picgo-plugin-pic-migrater.newFileSuffix')
-  const oldContentWriteToNewFile = !!ctx.getConfig<boolean>('picgo-plugin-pic-migrater.oldContentWriteToNewFile')
+  const newFileSuffix = ctx.getConfig<string>('picgo-plugin-pic-migrater-piclist.newFileSuffix')
+  const oldContentWriteToNewFile = !!ctx.getConfig<boolean>('picgo-plugin-pic-migrater-piclist.oldContentWriteToNewFile')
   if (guiApi) {
     guiApi.showNotification({
       title: $T('PIC_MIGRATER_PROCESSING'),
@@ -87,6 +64,7 @@ const migrateFiles = async (ctx: PicGo, files: string[], guiApi: any = undefined
     } else {
       let content = fileHandler.getFileContent(file)
       // replace content
+      console.log(result)
       result.urls.forEach((item) => {
         content = replaceAll(content, item.original, item.new)
       })
@@ -112,7 +90,7 @@ const migrateFiles = async (ctx: PicGo, files: string[], guiApi: any = undefined
 
 const guiMenu = (ctx: PicGo): IGuiMenuItem[] => {
   const $T = T(ctx)
-  const userConfig = ctx.getConfig<IMigraterConfig>('picgo-plugin-pic-migrater')
+  const userConfig = ctx.getConfig<IMigraterConfig>('picgo-plugin-pic-migrater-piclist')
   return [
     {
       label: $T('PIC_MIGRATER_CHOOSE_FILE'),
@@ -175,7 +153,7 @@ const guiMenu = (ctx: PicGo): IGuiMenuItem[] => {
 
 const config = (ctx: PicGo): IPluginConfig[] => {
   const $T = T(ctx)
-  let userConfig = ctx.getConfig<IMigraterConfig>('picgo-plugin-pic-migrater')
+  let userConfig = ctx.getConfig<IMigraterConfig>('picgo-plugin-pic-migrater-piclist')
   if (!userConfig) {
     userConfig = {}
   }
@@ -237,10 +215,10 @@ export = (ctx: PicGo) => {
           .command('migrate <files...>')
           .description('migrating pictures url from markdown files')
           .action(async (files: string[]) => {
-            const userConfig = ctx.getConfig<IMigraterConfig>('picgo-plugin-pic-migrater')
+            const userConfig = ctx.getConfig<IMigraterConfig>('picgo-plugin-pic-migrater-piclist')
             if (!userConfig) {
               ctx.log.warn('You should configurate this plugin first!')
-              ctx.log.info('picgo set plugin pic-migrater')
+              ctx.log.info('picgo set plugin pic-migrater-piclist')
               return
             }
             files = files.map((item) => path.resolve(item))
